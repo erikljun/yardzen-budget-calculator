@@ -1,20 +1,21 @@
 import React from 'react';
 
 interface BudgetProps {
-  budget: string;
+  // budget: number | undefined;
+  onSubmit: (budget: number) => void;
 }
 
 interface BudgetState {
-  budget: string;
+  budget: number | undefined;
 }
 
 export default class BudgetInput extends React.Component<
   BudgetProps,
   BudgetState
 > {
-  constructor(props: any) {
+  constructor(props: BudgetProps) {
     super(props);
-    this.state = { budget: '' };
+    this.state = { budget: undefined };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,8 +27,11 @@ export default class BudgetInput extends React.Component<
 
   handleSubmit(event: any) {
     const { budget } = this.state;
-    alert(`A name was submitted: ${budget}`);
-    event.preventDefault();
+    const { onSubmit } = this.props;
+    if (budget !== undefined) {
+      event.preventDefault();
+      onSubmit(budget);
+    }
   }
 
   render() {
