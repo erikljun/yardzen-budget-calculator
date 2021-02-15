@@ -1,6 +1,7 @@
 import React from 'react';
 import firebase from 'firebase';
 import 'firebase/firestore';
+import BudgetInput from './BudgetInput';
 
 export default function App() {
   const firebaseApp = firebase.apps[0];
@@ -15,11 +16,19 @@ export default function App() {
     });
 
   return (
-    <div>
-      <h1>React and Firebase</h1>
-      <code>
-        <pre>{JSON.stringify(firebaseApp.options, null, 2)}</pre>
-      </code>
-    </div>
+    // <div>
+    //   <h1>React and Firebase</h1>
+    //   <code>
+    //     <pre>{JSON.stringify(firebaseApp.options, null, 2)}</pre>
+    //   </code>
+    // </div>
+    // <form>
+    //   <label>
+    //     Name:
+    //     <input type="text" name="name" />
+    //   </label>
+    //   <input type="submit" value="Submit" />
+    // </form>
+    <BudgetInput budget="" />
   );
 }
