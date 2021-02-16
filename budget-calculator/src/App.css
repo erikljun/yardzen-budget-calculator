@@ -1,3 +1,22 @@
+ul {
+  list-style-type: none;
+  /* width: fit-content; */
+}
+
+button {
+  cursor: pointer;
+  outline: none;
+}
+
+div:focus {
+  outline: none;
+  transform: translate(0px, -5px);
+}
+
+.horiz {
+  display: inline-flex;
+}
+
 .center {
   /* text-align: center;
   padding: 20%; */
@@ -22,4 +41,27 @@
 .mx-10 {
   margin-left: 10px;
   margin-right: 10px;
+}
+
+.item {
+  /* border-style: solid; */
+  border-radius: .25rem;
+  box-shadow: 0px 0px 8px #888888;
+  cursor: pointer;
+}
+
+.item:hover {
+  box-shadow: 0px 5px 8px #888888;
+  transform: translate(0px, -5px);
+}
+
+.item-selected {
+  border-radius: .25rem;
+  box-shadow: 0px 0px 8px blue;
+  cursor: pointer;
+}
+
+.item-selected:hover {
+  box-shadow: 0px 5px 8px blue;
+  transform: translate(0px, -5px);
 }

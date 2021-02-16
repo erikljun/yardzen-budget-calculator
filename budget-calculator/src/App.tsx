@@ -39,11 +39,19 @@ export default class App extends React.Component<any, AppState> {
               type: item.type,
               onItemSelected: this.handleItemSelected,
             });
-          } else {
+          } else if (
+            !items.get(item.type)?.items.some((i) => i.name === item.name)
+          ) {
             items.get(item.type)?.items.push(item);
           }
         });
-        this.setState({ items: Array.from(items.values()), budget });
+        const sortedItems = Array.from(items.values());
+        sortedItems.forEach((itemList) => {
+          itemList.items.sort(
+            (item1, item2) => item1.lowPrice - item2.lowPrice,
+          );
+        });
+        this.setState({ items: sortedItems, budget });
       });
   }
 
