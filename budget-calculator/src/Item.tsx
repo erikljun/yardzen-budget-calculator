@@ -38,7 +38,7 @@ export function ItemList({
 }: ItemListProps): JSX.Element {
   const itemList = items.map((item) => {
     return (
-      <li>
+      <li key={item.id}>
         <input
           type="radio"
           name={item.type}
@@ -70,7 +70,7 @@ export function ItemTypes({
 }: ItemTypesProps): JSX.Element {
   const itemGroupElements = itemGroups.map((itemList) => {
     return (
-      <li>
+      <li key={itemList.type}>
         <ItemList
           items={itemList.items}
           type={itemList.type}
