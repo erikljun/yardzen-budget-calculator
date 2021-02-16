@@ -30,14 +30,16 @@ export default class App extends React.Component<any, AppState> {
       .get()
       .then((querySnapshot) => {
         querySnapshot.docs.forEach((doc) => {
-          if (!items.has(doc.data().type)) {
-            items.set(doc.data().type, {
-              items: [doc.data() as ItemProps],
-              type: doc.data().type,
+          const item = doc.data() as ItemProps;
+          item.id = doc.id;
+          if (!items.has(item.type)) {
+            items.set(item.type, {
+              items: [item],
+              type: item.type,
               onItemSelected: this.handleItemSelected,
             });
           } else {
-            items.get(doc.data().type)?.items.push(doc.data() as ItemProps);
+            items.get(item.type)?.items.push(item);
           }
         });
         this.setState({ items: Array.from(items.values()), budget });
@@ -47,9 +49,11 @@ export default class App extends React.Component<any, AppState> {
   handleItemSelected(type: string, item: ItemProps) {
     const { selectedItems } = this.state;
     const updatedSelection = new Map(selectedItems);
-    item.selected = !item.selected;
-    if (item.selected) updatedSelection.set(type, item);
-    else updatedSelection.delete(type);
+    if (item.id !== selectedItems.get(type)?.id) {
+      updatedSelection.set(type, item);
+    } else {
+      updatedSelection.delete(type);
+    }
     this.setState({ selectedItems: updatedSelection });
   }
 
@@ -62,7 +66,7 @@ export default class App extends React.Component<any, AppState> {
         {budget && (
           <div>
             <PriceRange budget={budget} selectedItems={selectedItems} />
-            <ItemTypes itemGroups={items} />
+            <ItemTypes itemGroups={items} selectedItems={selectedItems} />
           </div>
         )}
       </div>

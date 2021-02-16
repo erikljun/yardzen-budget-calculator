@@ -1,24 +1,23 @@
-import { check } from 'prettier';
 import React from 'react';
-import uuid from 'uuid';
 
 export interface ItemProps {
   type: string;
   name: string;
   lowPrice: number;
   highPrice: number;
-  uuid: 
-  selected?: boolean;
+  id: string;
 }
 
 export interface ItemListProps {
   items: ItemProps[];
   type: string;
   onItemSelected: (type: string, item: ItemProps) => void;
+  selectedItem?: ItemProps;
 }
 
 interface ItemTypesProps {
   itemGroups: ItemListProps[];
+  selectedItems: Map<string, ItemProps>;
 }
 
 export function Item({ name, lowPrice, highPrice }: ItemProps): JSX.Element {
@@ -35,6 +34,7 @@ export function ItemList({
   items,
   type,
   onItemSelected,
+  selectedItem,
 }: ItemListProps): JSX.Element {
   const itemList = items.map((item) => {
     return (
@@ -42,19 +42,16 @@ export function ItemList({
         <input
           type="radio"
           name={item.type}
-          checked={item.selected}
-          onClick={() => {
-            // item.selected = !item.selected;
-            
-            onItemSelected(type, item);
-          }}
-          // onChange={() => onItemSelected(type, item)}
+          checked={item.id === selectedItem?.id}
+          onClick={() => onItemSelected(type, item)}
+          readOnly
         />
         <Item
           type={item.type}
           name={item.name}
           lowPrice={item.lowPrice}
           highPrice={item.highPrice}
+          id={item.id}
         />
       </li>
     );
@@ -67,7 +64,10 @@ export function ItemList({
   );
 }
 
-export function ItemTypes({ itemGroups }: ItemTypesProps): JSX.Element {
+export function ItemTypes({
+  itemGroups,
+  selectedItems,
+}: ItemTypesProps): JSX.Element {
   const itemGroupElements = itemGroups.map((itemList) => {
     return (
       <li>
@@ -75,6 +75,7 @@ export function ItemTypes({ itemGroups }: ItemTypesProps): JSX.Element {
           items={itemList.items}
           type={itemList.type}
           onItemSelected={itemList.onItemSelected}
+          selectedItem={selectedItems.get(itemList.type)}
         />
       </li>
     );
