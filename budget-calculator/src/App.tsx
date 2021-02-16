@@ -47,7 +47,9 @@ export default class App extends React.Component<any, AppState> {
   handleItemSelected(type: string, item: ItemProps) {
     const { selectedItems } = this.state;
     const updatedSelection = new Map(selectedItems);
-    updatedSelection.set(type, item);
+    item.selected = !item.selected;
+    if (item.selected) updatedSelection.set(type, item);
+    else updatedSelection.delete(type);
     this.setState({ selectedItems: updatedSelection });
   }
 

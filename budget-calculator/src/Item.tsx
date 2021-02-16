@@ -1,10 +1,14 @@
+import { check } from 'prettier';
 import React from 'react';
+import uuid from 'uuid';
 
 export interface ItemProps {
   type: string;
   name: string;
   lowPrice: number;
   highPrice: number;
+  uuid: 
+  selected?: boolean;
 }
 
 export interface ItemListProps {
@@ -38,7 +42,13 @@ export function ItemList({
         <input
           type="radio"
           name={item.type}
-          onChange={() => onItemSelected(type, item)}
+          checked={item.selected}
+          onClick={() => {
+            // item.selected = !item.selected;
+            
+            onItemSelected(type, item);
+          }}
+          // onChange={() => onItemSelected(type, item)}
         />
         <Item
           type={item.type}
