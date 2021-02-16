@@ -4,6 +4,7 @@ import 'firebase/firestore';
 import BudgetInput from './BudgetInput';
 import { ItemListProps, ItemProps, ItemTypes } from './Item';
 import { PriceRange } from './PriceRange';
+import './App.css';
 
 interface AppState {
   items: ItemListProps[];
@@ -61,7 +62,7 @@ export default class App extends React.Component<any, AppState> {
     const { items, budget, selectedItems } = this.state;
 
     return (
-      <div>
+      <div className="height-100">
         {!budget && <BudgetInput onSubmit={this.handleSubmit} />}
         {budget && (
           <div>

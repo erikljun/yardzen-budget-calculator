@@ -1,0 +1,25 @@
+.center {
+  /* text-align: center;
+  padding: 20%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.center-h {
+  text-align: center;
+}
+
+.off-white {
+  background-color: #fff8f1;
+}
+
+.height-100 {
+  height: 100%;
+}
+
+.mx-10 {
+  margin-left: 10px;
+  margin-right: 10px;
+}

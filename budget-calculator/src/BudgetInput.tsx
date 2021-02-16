@@ -1,4 +1,5 @@
 import React from 'react';
+import './App.css';
 
 interface BudgetProps {
   // budget: number | undefined;
@@ -37,18 +38,27 @@ export default class BudgetInput extends React.Component<
   render() {
     const { budget } = this.state;
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label htmlFor="budgetId">
-          <h1>Please enter a budget:</h1>
-          <input
-            type="text"
-            id="budgetId"
-            value={budget}
-            onChange={this.handleChange}
-          />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+      <div className="center">
+        <form onSubmit={this.handleSubmit}>
+          <div className="center-h">
+            <h1>Please enter a budget:</h1>
+            <label htmlFor="budgetId">
+              $
+              <input
+                type="text"
+                id="budgetId"
+                value={budget}
+                onChange={this.handleChange}
+              />
+            </label>
+            <input
+              type="submit"
+              className="btn btn-primary mx-10"
+              value="Submit"
+            />
+          </div>
+        </form>
+      </div>
     );
   }
 }
