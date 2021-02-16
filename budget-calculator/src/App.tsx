@@ -2,7 +2,8 @@ import React from 'react';
 import firebase from 'firebase';
 import 'firebase/firestore';
 import BudgetInput from './BudgetInput';
-import { Item, ItemList, ItemListProps, ItemProps, ItemTypes } from './Item';
+import { ItemListProps, ItemProps, ItemTypes } from './Item';
+import { PriceRange } from './PriceRange';
 
 interface AppState {
   items: ItemListProps[];
@@ -58,36 +59,11 @@ export default class App extends React.Component<any, AppState> {
         {!budget && <BudgetInput onSubmit={this.handleSubmit} />}
         {budget && (
           <div>
-            <PriceRange selectedItems={selectedItems} />
+            <PriceRange budget={budget} selectedItems={selectedItems} />
             <ItemTypes itemGroups={items} />
           </div>
         )}
       </div>
     );
   }
-}
-
-interface PriceRangeProps {
-  selectedItems: Map<string, ItemProps>;
-}
-
-function PriceRange({ selectedItems }: PriceRangeProps): JSX.Element {
-  let lowPrice = 0;
-  let highPrice = 0;
-
-  selectedItems.forEach((item) => {
-    if (item !== undefined) {
-      lowPrice += item.lowPrice;
-      highPrice += item.highPrice;
-    }
-  });
-
-  return (
-    <div>
-      <h2>Price Range:</h2>
-      <h3>
-        ${lowPrice / 100} - ${highPrice / 100}
-      </h3>
-    </div>
-  );
 }
