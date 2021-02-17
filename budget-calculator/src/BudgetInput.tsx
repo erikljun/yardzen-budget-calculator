@@ -53,7 +53,7 @@ export default class BudgetInput extends React.Component<
             </label>
             <input
               type="submit"
-              className="btn btn-primary mx-10"
+              className="submit-button ml-3"
               value="Submit"
             />
           </div>

@@ -3,12 +3,12 @@ import { ItemProps } from './Item';
 
 const ON_BUDGET = 'Congrats your budget is within the price range!';
 const OVER_BUDGET = 'Woah there big spender, you still need to eat!';
-const UNDER_BUDGET =
-  'Nice you are still under budget! Go buy some more things!';
+const UNDER_BUDGET = 'Nice you are still under budget!';
 
 interface PriceRangeProps {
   budget: number;
   selectedItems: Map<string, ItemProps>;
+  onSubmit: () => void;
 }
 
 interface BudgetMessageProps {
@@ -20,6 +20,7 @@ interface BudgetMessageProps {
 export function PriceRange({
   budget,
   selectedItems,
+  onSubmit,
 }: PriceRangeProps): JSX.Element {
   let lowPrice = 0;
   let highPrice = 0;
@@ -42,13 +43,19 @@ export function PriceRange({
         lowPrice={lowPrice}
         highPrice={highPrice}
       />
-      {/* <div
+      <div
         role="button"
-        tabIndex={-1}
-        
+        tabIndex={0}
+        onClick={onSubmit}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter') {
+            onSubmit();
+          }
+        }}
+        className="submit-button right-align"
       >
-
-      </div> */}
+        Submit
+      </div>
     </div>
   );
 }
