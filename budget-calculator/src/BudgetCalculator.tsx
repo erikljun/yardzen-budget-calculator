@@ -36,16 +36,23 @@ export default class BudgetCalculator extends React.Component<
       submitted: false,
     };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSubmitBudget = this.handleSubmitBudget.bind(this);
     this.handleItemSelected = this.handleItemSelected.bind(this);
     this.handleSubmitSelections = this.handleSubmitSelections.bind(this);
   }
 
-  handleSubmit(budget: number) {
+  /**
+   * Queries the 'items' collection, removes any duplicates, groups them by type
+   * and sorts the items within each group by price, then updates the state of the
+   * component with the budget and items
+   *
+   * @param budget budget entered by user
+   */
+  handleSubmitBudget(budget: number) {
     const firebaseApp = firebase.apps[0];
     const db = firebase.firestore(firebaseApp);
 
-    const items: Map<string, ItemGroupProps> = new Map();
+    const itemsByType: Map<string, ItemGroupProps> = new Map();
 
     db.collection(ITEMS_COLLECTION)
       .get()
@@ -53,39 +60,58 @@ export default class BudgetCalculator extends React.Component<
         querySnapshot.docs.forEach((doc) => {
           const item = doc.data() as ItemProps;
           item.id = doc.id;
-          if (!items.has(item.type)) {
-            items.set(item.type, {
+
+          // group items and filter out duplicates
+          if (!itemsByType.has(item.type)) {
+            itemsByType.set(item.type, {
               items: [item],
               type: item.type,
               onItemSelected: this.handleItemSelected,
             });
           } else if (
-            !items.get(item.type)?.items.some((i) => i.name === item.name)
+            !itemsByType.get(item.type)?.items.some((i) => i.name === item.name) // filter out any duplicates
           ) {
-            items.get(item.type)?.items.push(item);
+            itemsByType.get(item.type)?.items.push(item);
           }
         });
-        const sortedItems = Array.from(items.values());
+
+        // sort items by price
+        const sortedItems = Array.from(itemsByType.values());
         sortedItems.forEach((itemList) => {
           itemList.items.sort(
             (item1, item2) => item1.lowPrice - item2.lowPrice,
           );
         });
+
+        // update state
         this.setState({ items: sortedItems, budget });
       });
   }
 
+  /**
+   * Updates the selectedItems state variable, either removing the item from the
+   * map if it is already selected or adding it to the map if it is not
+   *
+   * @param type Item type
+   * @param item Item selected
+   */
   handleItemSelected(type: string, item: ItemProps) {
     const { selectedItems } = this.state;
     const updatedSelection = new Map(selectedItems);
+
     if (item.id !== selectedItems.get(type)?.id) {
       updatedSelection.set(type, item);
     } else {
       updatedSelection.delete(type);
     }
+
     this.setState({ selectedItems: updatedSelection });
   }
 
+  /**
+   * Deletes all documents from the response collection and then adds all the
+   * selected items. Updates the submitted state
+   */
   handleSubmitSelections() {
     const firebaseApp = firebase.apps[0];
     const db = firebase.firestore(firebaseApp);
@@ -95,6 +121,7 @@ export default class BudgetCalculator extends React.Component<
 
     const docsDeletedObservable = new Subject<boolean>();
 
+    // delete all documents from the response collection
     db.collection(RESPONSE_COLLECTION)
       .get()
       .then((querySnapshot) => {
@@ -104,6 +131,7 @@ export default class BudgetCalculator extends React.Component<
         batch.commit().then(() => docsDeletedObservable.next(true));
       });
 
+    // add all selected items to the response collection
     docsDeletedObservable.subscribe((deleted) => {
       if (deleted) {
         selectedItems.forEach((item) => {
@@ -121,7 +149,9 @@ export default class BudgetCalculator extends React.Component<
     return (
       <div className="height-100">
         {/* Prompt the user to enter a budget if no budget entered yet */}
-        {!budget && !submitted && <BudgetInput onSubmit={this.handleSubmit} />}
+        {!budget && !submitted && (
+          <BudgetInput onSubmit={this.handleSubmitBudget} />
+        )}
 
         {/* Display the items and the price range when budget has been entered */}
         {budget && !submitted && (
