@@ -1,7 +1,12 @@
 ul {
   list-style-type: none;
-  /* width: fit-content; */
 }
+
+/* li + li {
+  margin-top: 10px;
+  border-top: 1px solid black;
+  padding-top: 10px;
+} */
 
 button {
   cursor: pointer;
@@ -18,8 +23,6 @@ div:focus {
 }
 
 .center {
-  /* text-align: center;
-  padding: 20%; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -43,11 +46,27 @@ div:focus {
   margin-right: 10px;
 }
 
+.item-group {
+  margin-bottom: 50px;
+  width: 70%;
+}
+
+.item-group + .item-group {
+  margin-top: 10px;
+  border-top: 1px solid black;
+  padding-top: 30px;
+}
+
 .item {
-  /* border-style: solid; */
-  border-radius: .25rem;
+  /* border-radius: .25rem; */
   box-shadow: 0px 0px 8px #888888;
   cursor: pointer;
+  background-color: #fff8f1;
+  margin-bottom: 10px;
+}
+
+.item:focus {
+  box-shadow: 0px 0px 25px #888888;
 }
 
 .item:hover {
@@ -56,12 +75,18 @@ div:focus {
 }
 
 .item-selected {
-  border-radius: .25rem;
-  box-shadow: 0px 0px 8px blue;
+  /* border-radius: .25rem; */
+  box-shadow: 0px 0px 8px #808C80;
   cursor: pointer;
+  background-color: #C0CCC0;
+  margin-bottom: 10px;
+}
+
+.item-selected:focus {
+  box-shadow: 0px 0px 25px #808C80;
 }
 
 .item-selected:hover {
-  box-shadow: 0px 5px 8px blue;
+  box-shadow: 0px 5px 8px #808C80;
   transform: translate(0px, -5px);
 }

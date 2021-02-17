@@ -20,6 +20,15 @@ const ITEM_IMAGES: Map<string, string> = new Map([
   ['Redwood Fence', 'redwood-fence.jpg'],
 ]);
 
+const ITEM_TYPES: Map<string, string> = new Map([
+  ['WATER_FEATURES', 'Water Features'],
+  ['STRUCTURES', 'Structures'],
+  ['LIGHTING', 'Lighting'],
+  ['GROUND_COVER', 'Ground Cover'],
+  ['DECK_MATERIAL', 'Deck Material'],
+  ['FENCING_AND_PRIVACY', 'Fencing and Privacy'],
+]);
+
 export interface ItemProps {
   type: string;
   name: string;
@@ -43,11 +52,11 @@ interface ItemTypesProps {
 export function Item({ name, lowPrice, highPrice }: ItemProps): JSX.Element {
   return (
     <div>
-      <h5 className="center-h">{name}</h5>
+      <h4 className="center-h">{name}</h4>
       <img src={ITEM_IMAGES.get(name)} alt="" width="200px" height="200px" />
-      <h6>
+      <h5>
         ${lowPrice / 100} - ${highPrice / 100}
-      </h6>
+      </h5>
     </div>
   );
 }
@@ -68,9 +77,12 @@ export function ItemList({
           role="button"
           tabIndex={0}
           onClick={() => onItemSelected(type, item)}
-          onKeyDown={() => onItemSelected(type, item)}
+          onKeyDown={(event) => {
+            if (event.key === ' ' || event.key === 'Enter') {
+              onItemSelected(type, item);
+            }
+          }}
           className={divClass}
-          aria-pressed="false"
         >
           <Item
             type={item.type}
@@ -80,19 +92,12 @@ export function ItemList({
             id={item.id}
           />
         </div>
-        {/* <input
-          type="radio"
-          name={item.type}
-          checked={item.id === selectedItem?.id}
-          onClick={() => onItemSelected(type, item)}
-          readOnly
-        /> */}
       </li>
     );
   });
   return (
     <div>
-      <h3 className="center-h">{type}</h3>
+      <h3 className="center-h">{ITEM_TYPES.get(type)}</h3>
       <ul className="center-h">{itemList}</ul>
     </div>
   );
@@ -104,7 +109,7 @@ export function ItemTypes({
 }: ItemTypesProps): JSX.Element {
   const itemGroupElements = itemGroups.map((itemList) => {
     return (
-      <li key={itemList.type}>
+      <li key={itemList.type} className="item-group">
         <ItemList
           items={itemList.items}
           type={itemList.type}
