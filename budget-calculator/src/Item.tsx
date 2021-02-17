@@ -37,7 +37,7 @@ export interface ItemProps {
   id: string;
 }
 
-export interface ItemListProps {
+export interface ItemGroupProps {
   items: ItemProps[];
   type: string;
   onItemSelected: (type: string, item: ItemProps) => void;
@@ -45,7 +45,7 @@ export interface ItemListProps {
 }
 
 interface ItemTypesProps {
-  itemGroups: ItemListProps[];
+  itemGroups: ItemGroupProps[];
   selectedItems: Map<string, ItemProps>;
 }
 
@@ -61,12 +61,12 @@ export function Item({ name, lowPrice, highPrice }: ItemProps): JSX.Element {
   );
 }
 
-export function ItemList({
+export function ItemGroup({
   items,
   type,
   onItemSelected,
   selectedItem,
-}: ItemListProps): JSX.Element {
+}: ItemGroupProps): JSX.Element {
   const itemList = items.map((item) => {
     const divClass = `${
       item.id === selectedItem?.id ? 'item-selected' : 'item'
@@ -110,7 +110,7 @@ export function ItemTypes({
   const itemGroupElements = itemGroups.map((itemList) => {
     return (
       <li key={itemList.type} className="item-group">
-        <ItemList
+        <ItemGroup
           items={itemList.items}
           type={itemList.type}
           onItemSelected={itemList.onItemSelected}

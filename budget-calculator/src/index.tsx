@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import firebase from 'firebase/app';
-import App from './App';
+import BudgetCalculator from './BudgetCalculator';
 import reportWebVitals from './reportWebVitals';
 
 firebase.initializeApp({
@@ -17,7 +17,7 @@ firebase.initializeApp({
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BudgetCalculator />
   </React.StrictMode>,
   document.getElementById('root'),
 );

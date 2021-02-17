@@ -110,7 +110,7 @@ div:focus {
   background-color: #DFE6E9;
   width: 350px;
   padding: 5px;
-  box-shadow: 0px 0px 8px #808C80;
+  box-shadow: 0px 0px 5px #808C80;
 }
 
 .submit-button {

@@ -5,21 +5,28 @@ import StickyBox from 'react-sticky-box';
 import { Subject } from 'rxjs';
 
 import BudgetInput from './BudgetInput';
-import { ItemListProps, ItemProps, ItemTypes } from './Item';
+import { ItemGroupProps, ItemProps, ItemTypes } from './Item';
 import { PriceRange } from './PriceRange';
 import './App.css';
 
+// collection names
 const ITEMS_COLLECTION = 'items';
 const RESPONSE_COLLECTION = 'erikLjungmanBudgetResponses';
 
-interface AppState {
-  items: ItemListProps[];
-  budget: number | undefined;
-  selectedItems: Map<string, ItemProps>;
-  submitted: boolean;
+interface BudgetCalculatorState {
+  items: ItemGroupProps[]; // List of all item groups
+  budget: number | undefined; // Budget entered by the user
+  selectedItems: Map<string, ItemProps>; // Map of item type to selected item of that type
+  submitted: boolean; // True if user has submitted their selections
 }
 
-export default class App extends React.Component<any, AppState> {
+/**
+ * Main component of the BudgetCalculator
+ */
+export default class BudgetCalculator extends React.Component<
+  any,
+  BudgetCalculatorState
+> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -38,7 +45,7 @@ export default class App extends React.Component<any, AppState> {
     const firebaseApp = firebase.apps[0];
     const db = firebase.firestore(firebaseApp);
 
-    const items: Map<string, ItemListProps> = new Map();
+    const items: Map<string, ItemGroupProps> = new Map();
 
     db.collection(ITEMS_COLLECTION)
       .get()
@@ -113,10 +120,10 @@ export default class App extends React.Component<any, AppState> {
 
     return (
       <div className="height-100">
-        {submitted && (
-          <h2 className="center">Thank you for your selections!</h2>
-        )}
+        {/* Prompt the user to enter a budget if no budget entered yet */}
         {!budget && !submitted && <BudgetInput onSubmit={this.handleSubmit} />}
+
+        {/* Display the items and the price range when budget has been entered */}
         {budget && !submitted && (
           <div className="row">
             <div>
@@ -134,6 +141,11 @@ export default class App extends React.Component<any, AppState> {
               </StickyBox>
             </div>
           </div>
+        )}
+
+        {/* Thank user for selections once they are submitted */}
+        {submitted && (
+          <h2 className="center">Thank you for your selections!</h2>
         )}
       </div>
     );
