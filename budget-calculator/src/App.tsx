@@ -1,6 +1,8 @@
 import React from 'react';
 import firebase from 'firebase';
 import 'firebase/firestore';
+import StickyBox from 'react-sticky-box';
+
 import BudgetInput from './BudgetInput';
 import { ItemListProps, ItemProps, ItemTypes } from './Item';
 import { PriceRange } from './PriceRange';
@@ -73,9 +75,21 @@ export default class App extends React.Component<any, AppState> {
       <div className="height-100">
         {!budget && <BudgetInput onSubmit={this.handleSubmit} />}
         {budget && (
-          <div>
-            <PriceRange budget={budget} selectedItems={selectedItems} />
-            <ItemTypes itemGroups={items} selectedItems={selectedItems} />
+          <div className="row">
+            <div>
+              <ItemTypes itemGroups={items} selectedItems={selectedItems} />
+            </div>
+            <div className="sticky-box">
+              <StickyBox
+                offsetTop={20}
+                offsetBottom={20}
+                // style={{ border: '3px solid green' }}
+              >
+                <div>
+                  <PriceRange budget={budget} selectedItems={selectedItems} />
+                </div>
+              </StickyBox>
+            </div>
           </div>
         )}
       </div>

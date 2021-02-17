@@ -54,7 +54,7 @@ export function Item({ name, lowPrice, highPrice }: ItemProps): JSX.Element {
     <div>
       <h4 className="center-h">{name}</h4>
       <img src={ITEM_IMAGES.get(name)} alt="" width="200px" height="200px" />
-      <h5>
+      <h5 className="pt-2">
         ${lowPrice / 100} - ${highPrice / 100}
       </h5>
     </div>
@@ -97,7 +97,7 @@ export function ItemList({
   });
   return (
     <div>
-      <h3 className="center-h">{ITEM_TYPES.get(type)}</h3>
+      <h3 className="center-h py-2">{ITEM_TYPES.get(type)}</h3>
       <ul className="center-h">{itemList}</ul>
     </div>
   );
@@ -120,7 +120,7 @@ export function ItemTypes({
     );
   });
   return (
-    <div>
+    <div className="px-4">
       <ul>{itemGroupElements}</ul>
     </div>
   );

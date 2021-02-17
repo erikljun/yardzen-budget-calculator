@@ -32,17 +32,23 @@ export function PriceRange({
   });
 
   return (
-    <div>
-      <h2>Budget: ${budget}</h2>
-      <h2>Price Range:</h2>
-      <h3>
-        ${lowPrice / 100} - ${highPrice / 100}
-      </h3>
+    <div className="budget-box">
+      <h4>Budget: ${budget}</h4>
+      <h4>
+        Price Range: ${lowPrice / 100} - ${highPrice / 100}
+      </h4>
       <BudgetMessage
         budget={budget}
         lowPrice={lowPrice}
         highPrice={highPrice}
       />
+      {/* <div
+        role="button"
+        tabIndex={-1}
+        
+      >
+
+      </div> */}
     </div>
   );
 }
@@ -53,10 +59,10 @@ function BudgetMessage({
   highPrice,
 }: BudgetMessageProps): JSX.Element {
   if (budget < lowPrice / 100) {
-    return <h4>{OVER_BUDGET}</h4>;
+    return <p className="over-budget">{OVER_BUDGET}</p>;
   }
   if (budget > highPrice / 100) {
-    return <h4>{UNDER_BUDGET}</h4>;
+    return <p>{UNDER_BUDGET}</p>;
   }
-  return <h4>{ON_BUDGET}</h4>;
+  return <p>{ON_BUDGET}</p>;
 }

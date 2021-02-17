@@ -8,7 +8,7 @@ html {
 
 body {
   margin: 0;
-  font-family: 'Amicale', serif;
+  font-family: 'Amicale', 'serif';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #ffffff;
